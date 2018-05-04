@@ -1,0 +1,66 @@
+ul {
+  list-style-type: none;
+}
+
+#main {
+    margin: 0px auto;
+    width: 800px;
+}
+#main .title {padding-left: 10px;}
+.title_record{
+    background-color: #428bca;
+    color: #fff;
+    border: 1px solid #428bca;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.records {
+}
+.record {
+    padding: 10px;
+    display: inline;
+    float: left;
+    border: 1px solid #428bca;
+    width: 600px;
+    overflow: hidden;
+    text-align: center;
+}
+.records li a{}
+.org_key {
+    display: inline-block;
+    width: 120px;
+}
+.user_name{
+    display: inline-block;
+    width: 120px;
+}
+.timestamp{
+    display: inline-block;
+    width: 180px;
+}
+.download_url{
+    display: inline-block;
+    width: 120px;
+    text-decoration: none;
+}
+.file_name{
+    width: auto;
+    display: inline;
+    float: left;
+}
+.uploaded_by{
+    float: left;
+}
+
+.uploaded_time {
+    float: left;
+}
+.title_org_key{
+}
+.title_user_name{}
+.title_timestamp{}
+.title_download_url{}
+.frame {}
+.recall_ul{}
+
+

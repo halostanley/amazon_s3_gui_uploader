@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Stanley</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="./static/images/icons/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="./static/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="./static/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="./static/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="./static/vendor/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="./static/css/util.css">
+    <link rel="stylesheet" type="text/css" href="./static/css/main.css">
+    <script src="./static/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="./static/vendor/bootstrap/js/popper.js"></script>
+    <script src="./static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="./static/vendor/select2/select2.min.js"></script>
+    <script src="./static/js/main.js"></script>
+
+    <script type="application/javascript">
+
+        function ajax_request_user_record(user_name) {
+            let send_info = {
+                'action': "recall_record_by_username",
+                'user_name':user_name
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://127.0.0.1:50002/json',
+                crossDomain: true,
+                data: JSON.stringify(send_info),
+                dataType: 'json',
+                success: function (responseData, status) {
+                    console.log(status);
+                    recall_success_upload(responseData);
+                },
+                error: function (responseData, status, error) {
+                    console.log(status);
+                    console.log(error);
+                    console.log('POST error.');
+                }
+            });
+        }
+
+        function recall_success_upload(responseData){
+            $(".table100-head").remove();
+            for (let i = 0; i < responseData.payload.length; i++) {
+                let user_name = responseData.payload[i].user_name;
+                let org_key = responseData.payload[i].org_key;
+                let timestamp = responseData.payload[i].timestamp;
+                let download_url = responseData.payload[i].download_url;
+                let file_size = responseData.payload[i].file_size;
+                $(".jq_here").append("<tr class=\"table100-head\">" +
+                    "<td class=\"column1\">" + timestamp + "</td>" +
+                    "<td class=\"column2\">" + user_name + "</td>" +
+                    "<td class=\"column3\">" + org_key + "</td>" +
+                    "<td class=\"column4\">" + file_size + "</td>" +
+                            //"<td class=\"column5\">" + "<a  href='" + download_url + "'>" + "Click me " +"</a>" +
+                            "<td class=\"column5\">" + "<a  href='" +
+                            download_url +
+                            "'><img src=\"./static/download.png\">"+"</a>" +
+                            "</td>"
+                            );
+            }
+        }
+
+        $('document').ready(function(){
+            $('#user_search').keypress(function(e){
+            if(e.which == 13){ //Enter key pressed
+                let user_name = $('.search_input').val();
+                ajax_request_user_record(user_name);
+                console.log(user_search);
+                }
+            });
+        });
+
+
+        $(document).ready(function () {
+            let send_info = {
+                'action': "recall_record",
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://127.0.0.1:50002/json',
+                crossDomain: true,
+                data: JSON.stringify(send_info),
+                dataType: 'json',
+                success: function (responseData, status) {
+                    console.log(status);
+                    recall_success_upload(responseData);
+                },
+                error: function (responseData, status, error) {
+                    console.log(status);
+                    console.log(error);
+                    console.log('POST error.');
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <div class="limiter">
+        <div class="container-table100">
+            <div class="wrap-table100">
+                <div class="table100">
+                    <table>
+                        <thead>
+                            <div class="header_frame">
+                                <div class="header_title">
+                                    <h1><a href="/">Python Upload Record</a></h1>
+                                    <div class="user_search">
+                                        <input class="search_input" type="text" id="user_search" placeholder="  username" />
+                                    </div>
+                                </div>
+                            </div>
+                            <tr class="first_table100-head">
+                                <th class="column1">Date</th>
+                                <th class="column2">Username</th>
+                                <th class="column3">Document</th>
+                                <th class="column4">Size</th>
+                                <th class="column5">Download</th>
+                            </tr>
+                        </thead>
+                        <tbody class="jq_here">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
